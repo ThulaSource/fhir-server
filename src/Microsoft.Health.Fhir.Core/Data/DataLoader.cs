@@ -20,7 +20,8 @@ namespace Microsoft.Health.Fhir.Core.Data
             EnsureArg.IsNotNull(modelInfoProvider, nameof(modelInfoProvider));
 
             string manifestName = $"{@namespace ?? _thisNamespace}.{modelInfoProvider.Version}.{filename}";
-            return (assembly ?? _thisAssembly).GetManifestResourceStream(manifestName);
+            return Assembly.GetEntryAssembly()?.GetManifestResourceStream(manifestName) ??
+                   (assembly ?? _thisAssembly).GetManifestResourceStream(manifestName);
         }
     }
 }
